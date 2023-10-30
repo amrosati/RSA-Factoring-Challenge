@@ -7,6 +7,17 @@
 #include <math.h>
 #include <string.h>
 
+void factorize(char *);
+
+/**
+ * main - Factorize all numbers listed in a file and
+ *	displays them to stdout
+ *
+ *  @ac: arg num
+ *  @av: arg arr
+ *
+ *  Return: Always 0
+ */
 int main(int ac, char **av)
 {
 	FILE *stream;
@@ -29,23 +40,28 @@ int main(int ac, char **av)
 	}
 
 	while ((nread = getline(&line, &len, stream)) != -1)
-	{
-		flag = 1, div = 2;
-		number = atoll(line);
-		while (flag)
-		{
-			rest = number % div;
-			if (!rest)
-			{
-				counter = number / div;
-				printf("%lld=%lld*%lld\n", number, counter, div);
-				flag = 0;
-			}
-			div++;
-		}
-	}
+		factorize(line);
+
 
 	free(line);
 	fclose(stream);
 	exit(EXIT_SUCCESS);
+}
+
+/**
+ * factorize - Factorize a number
+ * @buff: A buffer holding the number
+ */
+void factorize(char *buff)
+{
+	int num, i;
+
+	num = atoi(buff);
+
+	for (i = 2; i < num; i++)
+		if (!(num % i))
+		{
+			printf("%d=%d*%d\n", num, num / i, i);
+			return;
+		}
 }
